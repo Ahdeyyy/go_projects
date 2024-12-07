@@ -4,7 +4,9 @@ import (
 	"math"
 )
 
-func Filter_nums(input []int, cond func(int) bool) []int {
+type Cond = func(int) bool
+
+func Filter_nums(input []int, cond Cond) []int {
 	output := make([]int, len(input))
 	i := 0
 	for _, v := range input {
@@ -40,7 +42,7 @@ func IsMultipleOf(num int) func(int) bool {
 		return i%num == 0
 	}
 }
-func FilterByConds(input []int, cond func(int, ...func(int) bool) bool, functions ...func(int) bool) []int {
+func FilterByConds(input []int, cond func(int, ...Cond) bool, functions ...func(int) bool) []int {
 	output := make([]int, len(input))
 
 	i := 0
@@ -54,7 +56,7 @@ func FilterByConds(input []int, cond func(int, ...func(int) bool) bool, function
 	return output
 }
 
-func All(num int, fns ...func(int) bool) bool {
+func All(num int, fns ...Cond) bool {
 	for _, fn := range fns {
 		if fn(num) == false {
 			return false
@@ -63,7 +65,7 @@ func All(num int, fns ...func(int) bool) bool {
 	return true
 }
 
-func Any(num int, fns ...func(int) bool) bool {
+func Any(num int, fns ...Cond) bool {
 	for _, fn := range fns {
 		if fn(num) == true {
 			return true
